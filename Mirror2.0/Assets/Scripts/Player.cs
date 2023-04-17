@@ -7,7 +7,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    public float jumpHeight = 4;
+    public float maxJumpHeight = 4;
+    public float minJumpHeight = 1;
     public float timeToJumpApex = .4f;
     
     float accelerationTimeAirborne = .2f;
@@ -17,7 +18,8 @@ public class Player : MonoBehaviour
     int dir;
 
     float gravity;
-    float jumpVelocity;
+    float maxJumpVelocity;
+    float minJumpVelocity;
     Vector3 velocity;
     float velocityXSmoothing;
 
@@ -27,9 +29,10 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<Controller2D>();
         dir = controller.dir;
-        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2) * (-dir);
-        jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex * (-dir);
-        print("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2) * (-dir);
+        maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex * (-dir);
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * timeToJumpApex) * (-dir);
+        print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
     }
 
     void Update()
@@ -48,16 +51,30 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
             {
-                velocity.y = jumpVelocity;
+                velocity.y = maxJumpVelocity;
                 isGrounded = false;
+            }
+            if(Input.GetKeyUp(KeyCode.Space))
+            {
+                if(velocity.y > minJumpVelocity)
+                {
+                    velocity.y = minJumpVelocity;
+                }  
             }
         }
         else if (dir == 1)
         {
             if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.above)
             {
-                velocity.y = jumpVelocity;
+                velocity.y = maxJumpVelocity;
                 isGrounded = false;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                if (-velocity.y > -minJumpVelocity)
+                {
+                    velocity.y = minJumpVelocity;
+                }
             }
         }
         
