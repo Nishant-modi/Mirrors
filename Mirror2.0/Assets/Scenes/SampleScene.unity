@@ -359,7 +359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfdc9219e3927442acb528e3052e968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 4
+  maxJumpHeight: 2
+  minJumpHeight: 1
   timeToJumpApex: 0.4
   isGrounded: 0
 --- !u!114 &292836051
@@ -379,8 +380,8 @@ MonoBehaviour:
     m_Bits: 1024
   horizontalRayCount: 4
   verticalRayCount: 4
-  missedJumpDistance: 0
-  missedJumpSpeedMultiplier: 0
+  missedJumpDistance: 0.1
+  missedJumpSpeedMultiplier: 7
   dir: 1
 --- !u!1 &338769988
 GameObject:
@@ -1721,7 +1722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfdc9219e3927442acb528e3052e968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 4
+  maxJumpHeight: 2
+  minJumpHeight: 1
   timeToJumpApex: 0.4
   isGrounded: 0
 --- !u!114 &888998108
@@ -1741,8 +1743,8 @@ MonoBehaviour:
     m_Bits: 1024
   horizontalRayCount: 4
   verticalRayCount: 4
-  missedJumpDistance: 0
-  missedJumpSpeedMultiplier: 0
+  missedJumpDistance: 0.1
+  missedJumpSpeedMultiplier: 7
   dir: -1
 --- !u!1 &992664432
 GameObject:
