@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
 
     public float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
+
+    public float jumpBufferTime = 0.2f;
+    private float jumpBufferCounter;
     public bool isGrounded = false;
     int dir;
 
@@ -58,13 +61,23 @@ public class Player : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
 
         if(dir == -1)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0)
+            if (jumpBufferCounter>0 && coyoteTimeCounter > 0)
             {
                 velocity.y = maxJumpVelocity;
                 isGrounded = false;
+                jumpBufferCounter = 0;
             }
             if(Input.GetKeyUp(KeyCode.Space))
             {
@@ -77,10 +90,11 @@ public class Player : MonoBehaviour
         }
         else if (dir == 1)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0)
+            if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
             {
                 velocity.y = maxJumpVelocity;
                 isGrounded = false;
+                jumpBufferCounter = 0;
             }
             if (Input.GetKeyUp(KeyCode.Space))
             {

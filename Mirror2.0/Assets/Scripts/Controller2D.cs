@@ -79,11 +79,14 @@ public class Controller2D : MonoBehaviour
             if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == 1 && player.isGrounded == false)
             {
                 velocity.y = -Mathf.Abs((hit.distance - skinWidth) * missedJumpSpeedMultiplier);
+
+                
                 Debug.Log("" + hit.distance);
             }
             if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == -1 && player.isGrounded == false)
             {
                 velocity.y = Mathf.Abs((hit.distance - skinWidth) * missedJumpSpeedMultiplier);
+                
                 Debug.Log("" + hit.distance);
             }
         }
