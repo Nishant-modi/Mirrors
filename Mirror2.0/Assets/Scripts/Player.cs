@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     Vector3 velocity;
     float velocityXSmoothing;
 
+    
+
     Controller2D controller;
 
     void Start()
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex * (-dir);
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * timeToJumpApex) * (-dir);
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+
+        
     }
 
     void Update()
@@ -64,11 +68,15 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             jumpBufferCounter = jumpBufferTime;
+            
         }
         else
         {
             jumpBufferCounter -= Time.deltaTime;
+            
         }
+
+        
 
 
         if(dir == -1)
