@@ -11,9 +11,15 @@ public class Player : MonoBehaviour
     public float minJumpHeight = 1;
     public float timeToJumpApex = .4f;
     
-    float accelerationTimeAirborne = .2f;
-    float accelerationTimeGrounded = .1f;
-    float moveSpeed = 6;
+    public float accelerationTimeAirborne = .2f;
+    public float accelerationTimeGrounded = .1f;
+    public float moveSpeed = 6;
+
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
+
+    public float jumpBufferTime = 0.2f;
+    private float jumpBufferCounter;
     public bool isGrounded = false;
     int dir;
 
@@ -22,6 +28,8 @@ public class Player : MonoBehaviour
     float minJumpVelocity;
     Vector3 velocity;
     float velocityXSmoothing;
+
+    
 
     Controller2D controller;
 
@@ -33,6 +41,8 @@ public class Player : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex * (-dir);
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * timeToJumpApex) * (-dir);
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+
+        
     }
 
     void Update()
@@ -46,28 +56,53 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        if(isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime;
+            
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+            
+        }
+
+        
+
 
         if(dir == -1)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
+            if (jumpBufferCounter>0 && coyoteTimeCounter > 0)
             {
                 velocity.y = maxJumpVelocity;
                 isGrounded = false;
+                jumpBufferCounter = 0;
             }
             if(Input.GetKeyUp(KeyCode.Space))
             {
                 if(velocity.y > minJumpVelocity)
                 {
                     velocity.y = minJumpVelocity;
-                }  
+                }
+                coyoteTimeCounter = 0;
             }
         }
         else if (dir == 1)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.above)
+            if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
             {
                 velocity.y = maxJumpVelocity;
                 isGrounded = false;
+                jumpBufferCounter = 0;
             }
             if (Input.GetKeyUp(KeyCode.Space))
             {
@@ -75,12 +110,16 @@ public class Player : MonoBehaviour
                 {
                     velocity.y = minJumpVelocity;
                 }
+                coyoteTimeCounter = 0;
             }
         }
         
 
         float targetVelocityX = input.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        if(dir == -1)
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        else if(dir == 1)
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.above) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
