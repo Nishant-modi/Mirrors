@@ -11,9 +11,12 @@ public class Player : MonoBehaviour
     public float minJumpHeight = 1;
     public float timeToJumpApex = .4f;
     
-    float accelerationTimeAirborne = .2f;
-    float accelerationTimeGrounded = .1f;
-    float moveSpeed = 6;
+    public float accelerationTimeAirborne = .2f;
+    public float accelerationTimeGrounded = .1f;
+    public float moveSpeed = 6;
+
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
     public bool isGrounded = false;
     int dir;
 
@@ -46,10 +49,19 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        if(isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
 
         if(dir == -1)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
+            if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0)
             {
                 velocity.y = maxJumpVelocity;
                 isGrounded = false;
@@ -59,12 +71,13 @@ public class Player : MonoBehaviour
                 if(velocity.y > minJumpVelocity)
                 {
                     velocity.y = minJumpVelocity;
-                }  
+                }
+                coyoteTimeCounter = 0;
             }
         }
         else if (dir == 1)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.above)
+            if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0)
             {
                 velocity.y = maxJumpVelocity;
                 isGrounded = false;
@@ -75,12 +88,16 @@ public class Player : MonoBehaviour
                 {
                     velocity.y = minJumpVelocity;
                 }
+                coyoteTimeCounter = 0;
             }
         }
         
 
         float targetVelocityX = input.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        if(dir == -1)
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+        else if(dir == 1)
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.above) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }

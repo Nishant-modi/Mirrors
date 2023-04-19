@@ -362,6 +362,9 @@ MonoBehaviour:
   maxJumpHeight: 2
   minJumpHeight: 1
   timeToJumpApex: 0.4
+  accelerationTimeAirborne: -0.1
+  accelerationTimeGrounded: 0.1
+  moveSpeed: 6
   isGrounded: 0
 --- !u!114 &292836051
 MonoBehaviour:
@@ -1725,6 +1728,9 @@ MonoBehaviour:
   maxJumpHeight: 2
   minJumpHeight: 1
   timeToJumpApex: 0.4
+  accelerationTimeAirborne: -0.1
+  accelerationTimeGrounded: 0.1
+  moveSpeed: 6
   isGrounded: 0
 --- !u!114 &888998108
 MonoBehaviour:
