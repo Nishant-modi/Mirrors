@@ -53,6 +53,10 @@ public class Player : MonoBehaviour
             velocity.y = 0;
             isGrounded = true;
         }
+        else
+        {
+            isGrounded = false;
+        }
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
