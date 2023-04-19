@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         dir = controller.dir;
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2) * (-dir);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex * (-dir);
-        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * timeToJumpApex) * (-dir);
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight) * (-dir);
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
 
         
