@@ -34,9 +34,7 @@ public class CameraMovement : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
         zoom = (target1.transform.position - target2.transform.position).magnitude - target2.transform.localScale.x;
-
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
-
         cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref vel, smoothTime);
     }
 }
