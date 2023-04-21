@@ -7,6 +7,7 @@ using UnityEngine;
 public class Controller2D : MonoBehaviour
 {
     public LayerMask collisionMask;
+    public LayerMask moveBoxMask;
 
     const float skinWidth = 0.015f;
     public int horizontalRayCount = 4;
@@ -64,6 +65,7 @@ public class Controller2D : MonoBehaviour
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+            RaycastHit2D moveHit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, moveBoxMask);
             Debug.DrawRay(rayOrigin, Vector2.right * directionX * rayLength, Color.red);
 
             if (hit)
@@ -74,21 +76,40 @@ public class Controller2D : MonoBehaviour
 
                 collisions.left = directionX == -1;
                 collisions.right = directionX == 1;
+
+                if(hit.transform.tag == "StaticObstacle")
+                {
+                    if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == 1 && player.isGrounded == false)
+                    {
+                        velocity.y = -Mathf.Abs((hit.distance - skinWidth) * missedJumpSpeedMultiplier);
+
+
+                        Debug.Log("" + hit.distance);
+                    }
+                    if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == -1 && player.isGrounded == false)
+                    {
+                        velocity.y = Mathf.Abs((hit.distance - skinWidth) * missedJumpSpeedMultiplier);
+
+                        Debug.Log("" + hit.distance);
+                    }
+                }
+                
+
+            }
+            if(hit && hit.transform.tag == "MoveObstacle")
+            {
+                Debug.Log("moving obstacle hit");
+
+
+                velocity.x = (hit.distance - skinWidth) * directionX;
+                hit.rigidbody.AddForce(new Vector2(velocity.x*100, 0), ForceMode2D.Force);
+                rayLength = hit.distance;
+
+                collisions.left = directionX == -1;
+                collisions.right = directionX == 1;
             }
 
-            if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == 1 && player.isGrounded == false)
-            {
-                velocity.y = -Mathf.Abs((hit.distance - skinWidth) * missedJumpSpeedMultiplier);
-
-                
-                Debug.Log("" + hit.distance);
-            }
-            if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == -1 && player.isGrounded == false)
-            {
-                velocity.y = Mathf.Abs((hit.distance - skinWidth) * missedJumpSpeedMultiplier);
-                
-                Debug.Log("" + hit.distance);
-            }
+            
         }
     }
 
@@ -102,9 +123,10 @@ public class Controller2D : MonoBehaviour
             Vector2 rayOrigin = (directionY == -1)?raycastOrigins.bottomLeft:raycastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+            RaycastHit2D moveHit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, moveBoxMask);
             Debug.DrawRay(rayOrigin, Vector2.up * directionY * rayLength, Color.red);
 
-            if (hit)
+            if (hit || moveHit)
             {
                 velocity.y = (hit.distance - skinWidth) * directionY;
                 rayLength = hit.distance;

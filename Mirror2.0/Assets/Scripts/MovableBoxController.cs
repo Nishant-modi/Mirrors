@@ -7,6 +7,7 @@ using UnityEngine;
 public class MovableBoxController : MonoBehaviour
 {
     public LayerMask collisionMask;
+    public LayerMask playerMask;
 
     const float skinWidth = 0.015f;
     public int horizontalRayCount = 4;
@@ -21,14 +22,14 @@ public class MovableBoxController : MonoBehaviour
     RaycastOrigins raycastOrigins;
 
     public CollisionInfo collisions;
-    Player player;
+    MoveBox player;
 
-
+    public RaycastHit2D playerHit;
 
     void Start()
     {
         collider = GetComponent<BoxCollider2D>();
-        player = GetComponent<Player>();
+        player = GetComponent<MoveBox>();
         CalculateRaySpacing();
     }
 
@@ -64,6 +65,7 @@ public class MovableBoxController : MonoBehaviour
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+            playerHit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, playerMask);
             Debug.DrawRay(rayOrigin, Vector2.right * directionX * rayLength, Color.red);
 
             if (hit)
@@ -74,6 +76,12 @@ public class MovableBoxController : MonoBehaviour
 
                 collisions.left = directionX == -1;
                 collisions.right = directionX == 1;
+            }
+
+            if(playerHit)
+            {
+                Debug.Log("move box hit horizontal");
+                velocity.x = velocity.x;
             }
 
             if ((hit.distance - skinWidth) < missedJumpDistance && (hit.distance - skinWidth) > 0.001 && dir == 1 && player.isGrounded == false)
@@ -102,6 +110,7 @@ public class MovableBoxController : MonoBehaviour
             Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+            playerHit = Physics2D.Raycast(rayOrigin, Vector2.right * directionY, rayLength, playerMask);
             Debug.DrawRay(rayOrigin, Vector2.up * directionY * rayLength, Color.red);
 
             if (hit)
@@ -111,6 +120,12 @@ public class MovableBoxController : MonoBehaviour
 
                 collisions.below = directionY == -1;
                 collisions.above = directionY == 1;
+            }
+
+            if (playerHit)
+            {
+                Debug.Log("move box hit vertical");
+                //velocity.x = 
             }
         }
     }

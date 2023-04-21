@@ -26,8 +26,11 @@ public class MoveBox : MonoBehaviour
     float gravity;
     float maxJumpVelocity;
     float minJumpVelocity;
-    Vector3 velocity;
+    public Vector3 velocity;
     float velocityXSmoothing;
+
+    public Player player1;
+    public Player player2;
 
 
 
@@ -120,10 +123,17 @@ public class MoveBox : MonoBehaviour
 
 
         float targetVelocityX = input.x * moveSpeed;
-        if (dir == -1)
-            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
-        else if (dir == 1)
-            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.above) ? accelerationTimeGrounded : accelerationTimeAirborne);
+
+        if (controller.playerHit) 
+        {
+            if (dir == -1)
+                //velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+                velocity.x = player1.velocity.x;
+            else if (dir == 1)
+                //velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.above) ? accelerationTimeGrounded : accelerationTimeAirborne);
+                velocity.x = player2.velocity.x;
+        }
+        
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
