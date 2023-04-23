@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MoveObstacle
   - StaticObstacle
+  - DeathObstacle
   layers:
   - Default
   - TransparentFX
@@ -51,4 +52,10 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3931843365
+    locked: 0
+  - name: Movable obstacle
+    uniqueID: 2901579871
+    locked: 0
+  - name: Lose Level
+    uniqueID: 4170642197
     locked: 0

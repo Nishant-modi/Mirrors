@@ -8,6 +8,7 @@ public class Controller2D : MonoBehaviour
 {
     public LayerMask collisionMask;
     public LayerMask moveBoxMask;
+    public DeathLine death;
 
     const float skinWidth = 0.015f;
     public int horizontalRayCount = 4;
@@ -110,6 +111,7 @@ public class Controller2D : MonoBehaviour
             }
 
             
+            
         }
     }
 
@@ -133,6 +135,12 @@ public class Controller2D : MonoBehaviour
 
                 collisions.below = directionY == -1;
                 collisions.above = directionY == 1;
+            }
+
+            if (hit && hit.transform.tag == "DeathObstacle")
+            {
+                Debug.Log("death obstacle hit");
+                death.Death();
             }
         }
     }
