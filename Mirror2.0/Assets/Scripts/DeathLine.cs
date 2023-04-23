@@ -16,8 +16,9 @@ public class DeathLine : MonoBehaviour
 
     public void Death()
     {
-        Debug.Log("big bruh");
+        player1.gameObject.SetActive(true);
         player1.transform.position = new Vector3(sp.x, 2f, 0f);
+        player2.gameObject.SetActive(true);
         player2.transform.position = new Vector3(sp.x, -2f, 0f);
     }
 }

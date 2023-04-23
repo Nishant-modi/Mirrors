@@ -7,6 +7,7 @@ TagManager:
   - MoveObstacle
   - StaticObstacle
   - DeathObstacle
+  - FinishObstacle
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,7 @@ TagManager:
     locked: 0
   - name: Lose Level
     uniqueID: 4170642197
+    locked: 0
+  - name: Finish Level
+    uniqueID: 3011150395
     locked: 0
