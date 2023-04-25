@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         
     }
 
-    void Update()
+    void LateUpdate()
     {
 
         if (controller.collisions.above || controller.collisions.below)

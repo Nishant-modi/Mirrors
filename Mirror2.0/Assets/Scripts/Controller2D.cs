@@ -114,8 +114,8 @@ public class Controller2D : MonoBehaviour
             if (hit && hit.transform.tag == "FinishObstacle")
             {
                 this.gameObject.SetActive(false);
-                Debug.Log("death obstacle hit");
-                finish.Finish();
+                Debug.Log("finish obstacle hit");
+                finish.Finish(this.gameObject);
             }
 
         }
@@ -152,8 +152,8 @@ public class Controller2D : MonoBehaviour
             if (hit && hit.transform.tag == "FinishObstacle")
             {
                 this.gameObject.SetActive(false);
-                Debug.Log("death obstacle hit");
-                finish.Finish();
+                Debug.Log("finish obstacle hit");
+                finish.Finish(this.gameObject);
             }
         }
     }
