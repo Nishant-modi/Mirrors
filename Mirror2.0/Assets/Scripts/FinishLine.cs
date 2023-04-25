@@ -14,7 +14,7 @@ public class FinishLine : MonoBehaviour
         //other.gameObject.SetActive(false);
         if (countPlayer == 2)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
