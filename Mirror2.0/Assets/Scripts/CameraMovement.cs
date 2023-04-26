@@ -20,21 +20,23 @@ public class CameraMovement : MonoBehaviour
     private float vel = 0f;
     void Update()
     {
+        GameObject target11 = target1;
+        GameObject target22 = target2;
         if (target1.activeSelf == false)
         {
-            target1 = target2;
+            target11 = target22;
             zoom = cam.orthographicSize;
         }
         else if (target2.activeSelf == false)
         {
-            target2 = target1;
+            target22 = target11;
             zoom = cam.orthographicSize;
         }
-        target = (target1.transform.position + target2.transform.position) / 2;
+        target = (target11.transform.position + target22.transform.position) / 2;
         Vector3 targetPosition = new Vector3(target.x + offset.x, target.y + offset.y, -10f);
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
-        zoom = (target1.transform.position - target2.transform.position).magnitude - target2.transform.localScale.x;
+        zoom = (target11.transform.position - target22.transform.position).magnitude - target22.transform.localScale.x;
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
         cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref vel, smoothTime);
     }
