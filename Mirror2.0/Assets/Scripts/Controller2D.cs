@@ -111,6 +111,13 @@ public class Controller2D : MonoBehaviour
                 collisions.right = directionX == 1;
             }
 
+            if (hit && hit.transform.tag == "DeathObstacle")
+            {
+                Debug.Log("death obstacle hit");
+                finish.countPlayer = 0;
+                death.Death();
+            }
+
             if (hit && hit.transform.tag == "FinishObstacle")
             {
                 this.gameObject.SetActive(false);
@@ -146,6 +153,7 @@ public class Controller2D : MonoBehaviour
             if (hit && hit.transform.tag == "DeathObstacle")
             {
                 Debug.Log("death obstacle hit");
+                finish.countPlayer = 0;
                 death.Death();
             }
 

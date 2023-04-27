@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class FinishLine : MonoBehaviour
 {
 
-    int countPlayer = 0;
+    public int countPlayer = 0;
     public void Finish(GameObject hit)
     {
         countPlayer++;
