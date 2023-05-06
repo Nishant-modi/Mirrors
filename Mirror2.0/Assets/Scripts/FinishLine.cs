@@ -12,11 +12,19 @@ public class FinishLine : MonoBehaviour
         countPlayer++;
         //Destroy(hit.collider.gameObject);
         //hit.collider.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        FindObjectOfType<AudioManager>().Play("PlayerWin");
+
         Debug.Log("Win player count " + countPlayer);
         if (countPlayer >= 6)
         {
             //Debug.Log("Win player count " + countPlayer);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(FinishSequence());
         }
+    }
+
+    IEnumerator FinishSequence()
+    {
+        yield return new WaitForSeconds(1.1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

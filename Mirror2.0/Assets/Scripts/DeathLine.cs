@@ -20,19 +20,25 @@ public class DeathLine : MonoBehaviour
     public void Death()
     {
         StartCoroutine(DeathSequence());
-        StartCoroutine(Shake(shakeDuration, shakeMagnitude));
+        //StartCoroutine(Shake(shakeDuration, shakeMagnitude));
 
-        Debug.Log("lalalalala");
+        //Debug.Log("lalalalala");
     }
 
     IEnumerator DeathSequence()
     {
+
+        player1.GetComponent<Player>().enabled = false;
+        player2.GetComponent<Player>().enabled = false;
+        FindObjectOfType<AudioManager>().Play("PlayerDeath");
+        yield return new WaitForSeconds(0.5f);
         player1.gameObject.SetActive(false);
         player2.gameObject.SetActive(false);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         player1.transform.position = new Vector3(sp.x, 2f, 0f);
         player2.transform.position = new Vector3(sp.x, -2f, 0f);
-
+        player1.GetComponent<Player>().enabled = true;
+        player2.GetComponent<Player>().enabled = true;
         player2.gameObject.SetActive(true);
         player1.gameObject.SetActive(true);
     }
