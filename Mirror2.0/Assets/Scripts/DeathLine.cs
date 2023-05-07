@@ -10,6 +10,9 @@ public class DeathLine : MonoBehaviour
     public GameObject cam;
     public float shakeDuration;
     public float shakeMagnitude;
+
+    public Animator upAnim;
+    public Animator downAnim;
     Vector3 sp;
     // Start is called before the first frame update
     void Start()
@@ -20,14 +23,15 @@ public class DeathLine : MonoBehaviour
     public void Death()
     {
         StartCoroutine(DeathSequence());
-        //StartCoroutine(Shake(shakeDuration, shakeMagnitude));
+        StartCoroutine(Shake(shakeDuration, shakeMagnitude));
 
         //Debug.Log("lalalalala");
     }
 
     IEnumerator DeathSequence()
     {
-
+        upAnim.SetBool("IsDead", true);
+        downAnim.SetBool("IsDead", true);
         player1.GetComponent<Player>().enabled = false;
         player2.GetComponent<Player>().enabled = false;
         FindObjectOfType<AudioManager>().Play("PlayerDeath");
@@ -39,6 +43,8 @@ public class DeathLine : MonoBehaviour
         player2.transform.position = new Vector3(sp.x, -2f, 0f);
         player1.GetComponent<Player>().enabled = true;
         player2.GetComponent<Player>().enabled = true;
+        upAnim.SetBool("IsDead", false);
+        downAnim.SetBool("IsDead", false);
         player2.gameObject.SetActive(true);
         player1.gameObject.SetActive(true);
     }
