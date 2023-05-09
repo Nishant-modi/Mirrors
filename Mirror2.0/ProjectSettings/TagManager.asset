@@ -63,3 +63,6 @@ TagManager:
   - name: Finish Level
     uniqueID: 3011150395
     locked: 0
+  - name: Sparks
+    uniqueID: 4067243265
+    locked: 0

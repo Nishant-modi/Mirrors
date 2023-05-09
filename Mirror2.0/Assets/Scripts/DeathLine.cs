@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class DeathLine : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class DeathLine : MonoBehaviour
     public GameObject cam;
     public float shakeDuration;
     public float shakeMagnitude;
+
+    public MMFeedbacks cameraShake;
 
     public Animator upAnim;
     public Animator downAnim;
@@ -24,6 +27,7 @@ public class DeathLine : MonoBehaviour
     {
         StartCoroutine(DeathSequence());
         StartCoroutine(Shake(shakeDuration, shakeMagnitude));
+        //cameraShake.PlayFeedbacks();
 
         //Debug.Log("lalalalala");
     }
@@ -51,6 +55,7 @@ public class DeathLine : MonoBehaviour
 
     public IEnumerator Shake(float duration, float magnitude)
     {
+        
         Vector3 originalPos = cam.transform.position;
 
         float elapsed = 0f;
@@ -68,5 +73,6 @@ public class DeathLine : MonoBehaviour
         } 
         
         cam.transform.position = originalPos;
+        //yield return null;
     }
 }

@@ -25,6 +25,6 @@ public class FinishLine : MonoBehaviour
     IEnumerator FinishSequence()
     {
         yield return new WaitForSeconds(1.1f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

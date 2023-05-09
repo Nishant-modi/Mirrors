@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using MoreMountains.Feedbacks;
 
 public class CameraMovement : MonoBehaviour
 {

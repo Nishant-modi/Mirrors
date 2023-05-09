@@ -29,6 +29,9 @@ public class Player : MonoBehaviour
     public Vector3 velocity;
     float velocityXSmoothing;
 
+    public ParticleSystem ps;
+    int once = 0;
+
     
 
     Controller2D controller;
@@ -52,10 +55,22 @@ public class Player : MonoBehaviour
         {
             velocity.y = 0;
             isGrounded = true;
+            
+            if(once == 0)
+            {
+                var em = ps.emission;
+                var dur = ps.duration;
+
+                em.enabled = true;
+                ps.Play();
+                once++;
+            }
+            
         }
         else
         {
             isGrounded = false;
+            once = 0;
         }
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
