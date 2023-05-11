@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.Feedbacks;
+using UnityEngine.Rendering.Universal;
 
 public class DeathLine : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class DeathLine : MonoBehaviour
     public float shakeDuration;
     public float shakeMagnitude;
 
-    public MMFeedbacks cameraShake;
+    public GameObject Light1;
+    public GameObject Light2;
+
+    //public MMFeedbacks cameraShake;
 
     public Animator upAnim;
     public Animator downAnim;
@@ -36,15 +40,25 @@ public class DeathLine : MonoBehaviour
     {
         upAnim.SetBool("IsDead", true);
         downAnim.SetBool("IsDead", true);
+        Light1.SetActive(true);
+        Light2.SetActive(true);
         player1.GetComponent<Player>().enabled = false;
         player2.GetComponent<Player>().enabled = false;
         FindObjectOfType<AudioManager>().Play("PlayerDeath");
         yield return new WaitForSeconds(0.5f);
-        player1.gameObject.SetActive(false);
+        player1.GetComponent<SpriteRenderer>().enabled = false;
+        player2.GetComponent<SpriteRenderer>().enabled = false;
+        //player2.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
         player2.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        player1.gameObject.SetActive(false);
         player1.transform.position = new Vector3(sp.x, 2f, 0f);
         player2.transform.position = new Vector3(sp.x, -2f, 0f);
+
+        Light1.SetActive(false);
+        Light2.SetActive(false);
+        player1.GetComponent<SpriteRenderer>().enabled = true;
+        player2.GetComponent<SpriteRenderer>().enabled = true;
         player1.GetComponent<Player>().enabled = true;
         player2.GetComponent<Player>().enabled = true;
         upAnim.SetBool("IsDead", false);
@@ -75,4 +89,6 @@ public class DeathLine : MonoBehaviour
         cam.transform.position = originalPos;
         //yield return null;
     }
+
+ 
 }

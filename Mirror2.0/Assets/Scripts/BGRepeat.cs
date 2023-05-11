@@ -24,7 +24,7 @@ public class BGRepeat : MonoBehaviour
     void loadChildObjects(GameObject obj)
     {
         float objectWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x - choke;
-        int childsNeeded = (int) Mathf.Ceil(screenBounds.x * 2 / objectWidth);
+        int childsNeeded = (int) Mathf.Ceil((screenBounds.x * 2 / objectWidth));
         GameObject clone = Instantiate(obj) as GameObject;
 
         for(int i=0; i<=childsNeeded; i++)
