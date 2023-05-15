@@ -419,9 +419,9 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: PlayerWin
-    clip: {fileID: 8300000, guid: efbe826f9b37552458e0066d676fe84d, type: 3}
+    clip: {fileID: 8300000, guid: dd352e228ab237d44bed9a283ce80b5d, type: 3}
     volume: 1
-    pitch: 0.5
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Theme
